@@ -14,13 +14,13 @@ L'exemple type d'une connexion entre un client et un serveur peut être représe
 2. Client 1 se connecte au serveur WebSocket 
   * Création du socket
 3. Client 1 envoi le message "doAttack" avec comme paramètre pseudo du client et le l'adversaire
-  * Message ["doAttack" moi adversaire]
+  * Message `["doAttack" moi adversaire]`
 4. Serveur réceptionne le message et le traite par exemple en enregistrant le coup et en notifiant l'"attaqué"
-  * Traitement message ["doAttack" attaquant attaqué]
+  * Traitement message `["doAttack" attaquant attaqué]`
   * Enregistrement du coup
-  * Envoi du message ["takeAttack" attaquant résultat] au socket de l'"attaqué"
+  * Envoi du message `["takeAttack" attaquant résultat]` au socket de l'"attaqué"
 5. Client 2 (déjà connecté) reçoit le message de l'attaque et le traite
-  * Traitement message ["takeAttack" attaquant résultat]
+  * Traitement message `["takeAttack" attaquant résultat]`
   *  ….
 6. ….
 
@@ -53,7 +53,7 @@ let io = socketIO(server);
 […]
 ```
 
-> Petit aparté, les plus fins d'entre vous aurons surement remarqué que la syntaxe utilisée n'est pas très conventionnelle. En effet, ce serveur de ce projet a été codé en TypeScript. Si vous voulez intégrer socket.io en Typescript je vous conseille d'utiliser la définition de typings et plus particulièrement celle disponible sur DefinitlyTyped (c'est celle qui est utilisée ici). Même pour les éventuels utilisateur de TypeScript 2.0, en effet à l'heure où j'écris ces lignes le @types de socket.io n'est pas encore disponible sur npm.
+> Petit aparté, les plus fins d'entre vous aurons surement remarqué que la syntaxe utilisée n'est pas très conventionnelle. En effet, ce serveur de ce projet a été codé en TypeScript. Si vous voulez intégrer socket.io en [Typescript](https://www.typescriptlang.org/) je vous conseille d'utiliser [typings](https://github.com/typings/typings) et plus particulièrement la définition disponible sur  [DefinitelyTyped](https://github.com/DefinitelyTyped/DefinitelyTyped/tree/cc3d223a946f661eff871787edeb0fcb8f0db156/socket.io) (c'est celle qui est utilisée ici). Même pour les éventuels utilisateur de TypeScript 2.0, en effet à l'heure où j'écris ces lignes le [@types](https://www.npmjs.com/~types) de socket.io n'est pas encore disponible sur npm.
 
 Et voilà notre serveur est prêt à recevoir des requêtes WebSocket. Quand à les traiter c'est une autre affaire, il va falloir que nous déclarions les fonctions de callback pour chaque message.
 Démarrons par la connexion d'un client, action de base mais qui au final, suit la même logique qu'un message :
@@ -67,7 +67,7 @@ this.io.on("connection", function (socket: SocketIO.Socket) {
 
 Quelques mots sur ce bout de code avant d'enchainer sur l'utilisation de SocketIO:
 * On utilise la variable self pour continuer à appeler le contexte de cet objet (du service en l'occurrence ici) même depuis la fonction de callback. [Piqure de rappel](https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Fonctions)
-* Ce service est instancié par mon serveur (index.ts) qui lui passe la référence de socketIO (d’où le this.io)
+* Ce service est instancié par mon serveur (index.ts) qui lui passe la référence de SocketIO (d’où le this.io)
 	
 Revenons donc à socket.io. Ici on initialise la fonction de callback lors de la connexion d'un joueur à notre serveur,  cette fonction prend en paramètre le socket du dit joueur. Cette dernière information est importante pour la suite.
 
@@ -112,15 +112,16 @@ this.io.on("connection", function (socket: SocketIO.Socket) {
 
 On peut voir ici que la déclaration des messages est faite pour le socket qui est récupéré à la connexion du joueur.
 Plusieurs actions sont réalisées ici :
-* disconnect (qui est un message) / connection :  met à jour le compte de joueurs pour tous les autres joueurs.
-* message postTentative : traite la tentative émise par un joueur.
-* message getHistorique : émet un message updateFullHisto avec un classement actuel en paramètre
+* `disconnect` (qui est un message) / connection :  met à jour le compte de joueurs pour tous les autres joueurs.
+* message `postTentative` : traite la tentative émise par un joueur.
+* message `getHistorique` : émet un message updateFullHisto avec un classement actuel en paramètre
 
 Un petit élément à savoir concernant disconnect, ce message est appelé automatiquement à la déconnexion (fermeture du navigateur, départ du site, etc…) ce qui peut être très pratique pour faire un système de "destructeur" ou notifier les autres joueurs (comme ici)
 
-Deux méthodes de socket.io sont utilisées ici, elle sont les "piliers" du framework: 
-* Socket.emit qui émet un message au socket actuel
-* Socket.broadcast qui émet un message à tous les sockets sauf l'actuel.
+Au final, trois méthodes de socket.io sont utilisées ici, elle sont les "piliers" du framework: 
+* `Socket.on` qui permet de definir le callback pour un message donné,
+* `Socket.emit` qui émet un message au socket actuel,
+* `Socket.broadcast` qui émet un message à tous les sockets sauf l'actuel.
 
 Et c'est tout… on peut déjà aller très loin avec cette approche.
 
@@ -163,7 +164,7 @@ Je pense que vous commencez à comprendre le concept pas besoin d'insister… ^^
 ## Conclusion
 Bien sûr il est possible d'aller beaucoup plus loin avec Socket.io. Cependant grâce à son fonctionnement très simple il est possible très rapidement une communication multi-parties en pseudo temps réel (modulo la latence bien sûr).
 Socket.io m'a permis d'intégrer du multijoueur dans mon projet d'une façon très aisé et que je trouve pour ma part assez élégant.
-Coté performance je n'ai pas pu aller très loin mais de ce que j'ai vu ça tiens très bien la route (notre cher NodeJS y étant pour beaucoup) : 45 joueurs simultanés sur la web-app et mon petit Kimsufi KS1 () ne dépassait pas les 10% CPU, et 200mo de RAM OS inclus (CentOS 7).
+Coté performance je n'ai pas pu aller très loin mais de ce que j'ai vu ça tiens très bien la route (notre cher NodeJS y étant pour beaucoup) : 45 joueurs simultanés sur la web-app et mon tout petit [Kimsufi](https://www.kimsufi.com/fr/serveurs.xml) ne dépassait pas les 10% CPU, et 200mo de RAM OS inclus (CentOS 7).
 
 Cependant son côté facile d'accès peut également être son défaut, la multiplication des messages pouvant rapidement se multiplier aux dépens de la maintenabilité de l'application.
 
