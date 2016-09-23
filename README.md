@@ -1,5 +1,3 @@
-# Socket.io
-
 Suite à la réalisation d'un projet de jeu sous forme de webapp en Angular 2, j'ai eu l'occasion/la possibilité de pousser le concept du dit jeu vers le multijoueur. Cela afin d'amener de l'interactivité entre les joueurs connectés à un instant T, du "Temps réél" en somme.
 Afin de réaliser cela sur une web-app je me suis tourné vers les [WebSocket](https://fr.wikipedia.org/wiki/WebSocket) et plus particulièrement vers `socket.io` dans mon cas. 
 
