@@ -67,6 +67,7 @@ this.io.on("connection", function (socket: SocketIO.Socket) {
 ```
 
 Quelques mots sur ce bout de code avant d'enchainer sur la gestion des messages:
+
 * On utilise la variable self pour continuer à appeler le contexte de cet objet (du service en l'occurrence ici) même depuis la fonction de callback. [Piqure de rappel](https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Fonctions)
 * Ce service est instancié par mon serveur (index.ts) qui lui passe la référence de `socket.io` (d’où le this.io)
 	
@@ -119,6 +120,7 @@ Plusieurs actions sont réalisées ici :
 Un petit élément à savoir concernant disconnect, ce message est appelé automatiquement à la déconnexion (fermeture du navigateur, départ du site, etc…) ce qui peut être très pratique pour faire un système de "destructeur" ou notifier les autres joueurs (comme ici)
 
 Au final, trois méthodes de socket.io sont utilisées ici, elles sont les "piliers" du framework: 
+
 * `Socket.on` qui permet de definir le callback pour un message donné,
 * `Socket.emit` qui émet un message au socket actuel,
 * `Socket.broadcast` qui émet un message à tous les sockets sauf l'actuel.
@@ -164,9 +166,9 @@ this._socket.on("updateNbJoueurs", function(nbJoueurs) {
 Je pense que vous commencez à comprendre le concept pas besoin d'insister… ^^
 
 ## Conclusion
-Bien sûr il est possible d'aller beaucoup plus loin avec `socket.io.` Cependant, grâce à son fonctionnement très simple il est possible très rapidement de réaliser une communication multi-parties en pseudo temps réel (modulo la latence bien sûr).
+Bien sûr il est possible d'aller beaucoup plus loin avec `socket.io`. Cependant, grâce à son fonctionnement très simple il est possible très rapidement de réaliser une communication multi-parties en pseudo temps réel (modulo la latence bien sûr).
 `socket.io` m'a permis d'intégrer du multijoueur dans mon projet d'une façon très aisée et, que je trouve pour ma part, assez élégante. 
-Coté performance je n'ai pas pu énormément pousser l'application mais, de ce que j'ai vu, ça tiens très bien la route (notre cher NodeJS y étant pour beaucoup). Avec 45 joueurs simultanés sur la web-app, mon tout petit [Kimsufi](https://www.kimsufi.com/fr/serveurs.xml) ne dépassait pas les 10% CPU, et 200mo de RAM OS inclus (CentOS 7).
+Coté performance je n'ai pas pu énormément pousser l'application mais, de ce que j'ai vu, ça tiens très bien la route (notre cher NodeJS y étant pour beaucoup). Avec 45 joueurs simultanés sur la web-app, mon tout petit [Kimsufi](https://www.kimsufi.com/fr/serveurs.xml) (je ne suis pas payé pour cette Pub :p) ne dépassait pas les 10% CPU, et 200mo de RAM OS inclus (CentOS 7).
 
 Cependant, son côté facile d'accès peut également être son défaut, les messages pouvant rapidement se multiplier et se complexifier aux dépens de la maintenabilité de l'application.
 
