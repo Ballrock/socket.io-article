@@ -1,13 +1,13 @@
 # Socket.io
 
-Suite à la réalisation d'un projet de jeu sous forme de webapp en Angular 2, j'ai eu l'occasion/la possibilité de pousser le concept du dit jeu vers quelque chose de plus multijoueur. Permettant ainsi d'amener de l'interactivité entre le joueur connectés à un instant T, du "Temps réél" en somme.
-Afin de réaliser cela sur une web-app je me suis tournée vers les [WebSocket](https://fr.wikipedia.org/wiki/WebSocket) et plus particulièrement de Socket.io dans mon cas. 
+Suite à la réalisation d'un projet de jeu sous forme de webapp en Angular 2, j'ai eu l'occasion/la possibilité de pousser le concept du dit jeu vers le multijoueur. Cela afin d'amener de l'interactivité entre les joueurs connectés à un instant T, du "Temps réél" en somme.
+Afin de réaliser cela sur une web-app je me suis tourné vers les [WebSocket](https://fr.wikipedia.org/wiki/WebSocket) et plus particulièrement vers Socket.io dans mon cas. 
 
 ## Présentation
-[Socket.io](http://socket.io/) est donc une des implémentations du protocole WebSocket utilisant du Node.JS coté serveur et du Javascript coté Client. Elle possède deux "librairies" distinctes pour chacun des deux côtés. 
+[Socket.io](http://socket.io/) est donc une des implémentations du protocole WebSocket utilisant du NodeJS coté serveur et du Javascript coté Client. Elle possède deux "librairies" distinctes pour chacun des deux côtés. 
 Le site internet du framework étant très complet je vous invite à y faire une tour.
-Tout le principe de la communication repose sur l'échange de "messages" possédant un nom et un contenu sur un socket. 
-L'exemple type d'une connexion entre un client et un serveur peut être représenté de la façon suivante :
+Tout le principe de la communication repose sur l'échange de "messages" possédant un identifiant et un contenu sur un socket donné. 
+L'exemple type d'un echange entre un client et un serveur peut être représenté de la façon suivante :
 
 1. Serveur déploie le websocket 
   * Ouverture du websocket coté serveur
